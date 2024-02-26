@@ -42,7 +42,7 @@ public class Software {
 
     public static void callPythonScript() {
         try {
-            Process p = Runtime.getRuntime().exec("python CNN.py"); 
+            Process p = Runtime.getRuntime().exec("CNN.py"); 
 
             // Read output from the Python script (placeholder)
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
