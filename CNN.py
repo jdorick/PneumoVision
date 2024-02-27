@@ -56,3 +56,6 @@ train_data = custom_generator(data_dir, image_label_dict, image_size, batch_size
 validation_data = custom_generator(data_dir, image_label_dict, image_size, batch_size) 
 
 model.fit(train_data, epochs=epochs, validation_data=validation_data) 
+
+# Save the model -- waiting until I know the model works
+#model.save('chest_xray_model.h5')  
