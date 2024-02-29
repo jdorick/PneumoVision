@@ -32,6 +32,7 @@ h1 {
     height: 30vh;
     background-color: #1E90FF; 
     border-radius: 50%; 
+    z-index: -1;
 }
 
 #bubbleTopLeft {
