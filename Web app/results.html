@@ -7,7 +7,6 @@
     <link rel="icon" href="images\tab_image.png">
     <title>PneumoVision | Results</title>
     <style>
-        /* Additional styles specific to results.html */
         #resultContainer {
             text-align: center;
             margin-top: 50px;
@@ -39,10 +38,24 @@
     <div id="bubbleBottomRight"></div>
     <div id="resultContainer">
         <img id="resultImage" alt="Uploaded Image">
-        <div id="resultPrediction">Prediction: Unknown</div>
-        <div id="resultAccuracy">Accuracy: N/A</div>
+        <div id="resultPrediction">Prediction:</div>
+        <div id="resultAccuracy">Accuracy:</div>
     </div>
     <script src="prediction.js"></script>
     <script src="app.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const uploadedImageData = localStorage.getItem('imageData');
+    console.log('Retrieved imageData:', uploadedImageData);
+    localStorage.removeItem('imageData'); // Clean up 
+
+    const resultImage = document.getElementById('resultImage');
+
+    if (resultImage && uploadedImageData) {
+        // Set the data URL directly as the image source
+        resultImage.src = uploadedImageData;
+    }
+});
+    </script>
 </body>
 </html>
