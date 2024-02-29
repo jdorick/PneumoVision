@@ -1,5 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+from tensorflow.keras.applications.vgg16 import preprocess_input
 import json
 import numpy as np 
 
@@ -7,14 +8,15 @@ import numpy as np
 model = tf.keras.models.load_model('chest_xray_model.h5')  
 image_size = (224, 224)
 
-# NEEDS TO BE FIXED BELOW -- 
-disease_labels = ['Atelectasis', 'Consolidation', ..., 'Hernia'] # 14 diseases
+disease_labels = ['Atelectasis', 'Consolidation', 'Infiltration', 'Pneumothorax', 
+                'Edema', 'Emphysema', 'Fibrosis', 'Effusion', 'Pneumonia', 
+                'Pleural_Thickening', 'Cardiomegaly', 'Nodule', 'Mass', 'Hernia', 'No Finding']
 
 def predict_disease(image_path):
     img = tf.io.read_file(image_path)
     img = tf.image.decode_png(img, channels=3)
     img = tf.image.resize(img, image_size)
-    img = tf.keras.applications.vgg16.preprocess_input(img)  # VGG16 specific   
+    img = preprocess_input(img)  # Use VGG16 preprocessing
     prediction = model.predict(tf.expand_dims(img, axis=0))[0] 
 
     # Create results dictionary

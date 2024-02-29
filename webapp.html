@@ -3,80 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href = 'design.css'>
+    <link rel = 'icon' href = '"C:\Users\jdorick\Downloads\topright.png"'>
     <title>PneumoVision</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1E1E1E;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        h1 {
-            font-size: 28px;
-        }
-
-        #uploadButton {
-            padding: 10px;
-            font-size: 18px;
-            background-color: #1E90FF;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 12px;
-        }
-
-        #uploadButton:hover {
-            background-color: #4aa4ff;
-        }
-
-        #uploadInput {
-            display: none;
-        }
-
-        #dropZone {
-        border: 2px dashed #1E90FF;
-        padding: 20px;
-        margin-top: 20px;
-        text-align: center;
-        cursor: pointer;
-        }
-
-    </style>
 </head>
 <body>
-    <h1>PneumoVision</h1>
-    <label for="uploadInput" id="uploadButton">Upload image from your computer</label>
-    <input type="file" id="uploadInput" accept=".jpg, .jpeg, .png, .dcm" onchange="handleUpload()">
-    <div id="dropZone">Drag and drop your image here</div> <!-- New container for drag-and-drop -->
-    <script>
-        function handleUpload() {
-            const fileInput = document.getElementById('uploadInput');
-            const file = fileInput.files[0];
-
-            if (file) {
-                // Process the uploaded file (load into an image component)
-                console.log('File selected:', file.name);
-            }
-        }
-            // New function for handling dropped files
-        function handleDrop(event) {
-            event.preventDefault();
-            const droppedFile = event.dataTransfer.files[0];
-
-            if (droppedFile) {
-                // Process the dropped file (e.g., display it in an image component)
-                console.log('File dropped:', droppedFile.name);
-            }
-        }
-            const dropZone = document.getElementById('dropZone');
-            dropZone.addEventListener('dragover', (event) => event.preventDefault());
-            dropZone.addEventListener('drop', handleDrop);
-    </script>
+    <div id="container">
+        <div id = 'bubbleTopLeft'></div>
+        <div id = 'bubbleBottomRight'></div>
+        <img src="PneumoVision_logo.png" alt="PneumoVision Logo" id="logo">
+        <h1>PneumoVision</h1>
+        <label for="uploadInput" id="uploadButton">Upload image(s) from your computer</label>
+        <p>Or</p>
+        <input type="file" id="uploadInput" accept=".jpg, .jpeg, .png, .dcm" multiple onchange="handleUpload()">
+        <div id="dropZone" ondrop="handleDrop(event)" ondragover="event.preventDefault()">Drag and drop your image(s) here
+            <br><em>Images must be JPEG, JPG, PNG, or DCM</em></div>
+        <div id="loadingBarContainer">
+            <div id="loadingBar"></div>
+        </div>
+        <!-- Dynamically added results bar is added here -->
+    </div>
+    <script src="app.js"></script>
+    <script src="prediction.js"></script>
 </body>
 </html>
