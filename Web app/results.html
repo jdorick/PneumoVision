@@ -31,6 +31,24 @@
             font-size: 16px;
             color: #555;
         }
+
+        .resultsButton {
+            font-family:'Franklin Gothic Medium',  Arial, sans-serif;
+            transform: translateY(20px);
+            background-color: #1E90FF;
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 12px 12px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 1vh;
+        }
+
+        .resultsButton:hover {
+            background-color: #4aa4ff;
+        }
+
     </style>
 </head>
 <body>
@@ -41,6 +59,7 @@
         <div id="resultPrediction">Prediction:</div>
         <div id="resultAccuracy">Accuracy:</div>
     </div>
+    <button id="runOnNewImageButton" class="resultsButton">Upload New Image</button>
     <script src="prediction.js"></script>
     <script src="app.js"></script>
     <script>
@@ -54,6 +73,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (resultImage && uploadedImageData) {
         // Set the data URL directly as the image source
         resultImage.src = uploadedImageData;
+    }
+
+    const runOnNewImageButton = document.getElementById('runOnNewImageButton');
+    if (runOnNewImageButton) {
+        runOnNewImageButton.addEventListener('click', function () {
+            // Redirect to webapp.html
+            window.location.href = 'webapp.html';
+        });
     }
 });
     </script>

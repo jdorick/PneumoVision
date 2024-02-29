@@ -79,8 +79,8 @@ text-align: center;
 cursor: pointer;
 }
 
-#dropZone.dragover {
-    background-color: #333333;
+#dropZone.drag-over {
+    background-color: #4a4a4a;
 }
 
 #resultsButton {
