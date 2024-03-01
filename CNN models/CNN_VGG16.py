@@ -62,7 +62,7 @@ def custom_generator(data_dir, image_label_dict, image_size, batch_size, image_i
                             yield tf.stack(images), tf.stack(labels)  
                             images, labels = [], []  
 
-# Model (Let's use VGG16 as an example)
+# Model (VGG16)
 base_model = tf.keras.applications.VGG16(include_top=False, weights='imagenet', input_shape=image_size + (3,)) 
 
 # Freeze pre-trained layers (optional)
@@ -95,4 +95,4 @@ validation_data = custom_generator(data_dir, image_label_dict, image_size, batch
 model.fit(train_data, epochs=epochs, validation_data=validation_data)
 
 # Save the model
-model.save('chest_xray_model.h5')
+model.save('chest_xray_model_vgg16.h5')

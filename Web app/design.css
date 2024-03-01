@@ -32,6 +32,7 @@ h1 {
     height: 30vh;
     background-color: #1E90FF; 
     border-radius: 50%; 
+    z-index: -1;
 }
 
 #bubbleTopLeft {
@@ -78,8 +79,8 @@ text-align: center;
 cursor: pointer;
 }
 
-#dropZone.dragover {
-    background-color: #333333;
+#dropZone.drag-over {
+    background-color: #4a4a4a;
 }
 
 #resultsButton {

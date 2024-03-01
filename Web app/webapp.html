@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href = 'design.css'>
+    <link rel = 'icon' href = 'images\tab_image.png'>
+    <title>PneumoVision</title>
+</head>
+<body>
+    <div id="container">
+        <div id = 'bubbleTopLeft'></div>
+        <div id = 'bubbleBottomRight'></div>
+        <img src="images\PneumoVision_logo.png" alt="PneumoVision Logo" id="logo">
+        <h1>PneumoVision</h1>
+        <label for="uploadInput" id="uploadButton">Upload image from your computer</label>
+        <p>Or</p>
+        <input type="file" id="uploadInput" accept=".jpg, .jpeg, .png, .dcm" onchange="handleUpload()">
+        <div id="dropZone" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+            Drag and drop your image here<br><em>Image must be JPEG, JPG, PNG, or DCM</em>
+        </div>
+        <div id="loadingBarContainer">
+            <div id="loadingBar"></div>
+        </div>
+        <!-- Dynamically added results bar is added here -->
+    </div>
+    <script src="app.js"></script>
+    <script src="prediction.js"></script>
+    <script>
+let uploadedFilePath;
+function handleUpload() {
+    displayLoadingBar();
+    const fileInput = document.getElementById('uploadInput');
+    const files = fileInput.files;
+
+    if (files.length > 0) {
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const imageData = event.target.result;
+            localStorage.setItem('imageData', imageData);
+            simulateProcessing(files, 0);
+        };
+
+        reader.readAsDataURL(files[0]); // Convert the file to a data URL
+    }
+}
+
+function handleDrop(event) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+
+    if (files.length > 0) {
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const imageData = event.target.result;
+            localStorage.setItem('imageData', imageData);
+            simulateProcessing(files, 0);
+        };
+
+        reader.readAsDataURL(files[0]); // Convert the file to a data URL
+    }
+    // Remove the drag-over class to reset the background color
+    document.getElementById('dropZone').classList.remove('drag-over');
+}
+
+function handleDragOver(event) {
+     event.preventDefault();
+    // Add styling or visual feedback for drag-over state
+    document.getElementById('dropZone').classList.add('drag-over');
+}
+
+function handleDragLeave(event) {
+    event.preventDefault();
+    // Remove the drag-over class to reset the background color when dragging leaves the drop zone
+    document.getElementById('dropZone').classList.remove('drag-over');
+}
+
+function showResultsButton() {
+    const resultsButton = document.createElement('button');
+    resultsButton.textContent = 'See Results';
+    resultsButton.id = 'resultsButton';
+    resultsButton.addEventListener('click', redirectToResults);
+
+    // Pass the uploaded image path as a query parameter
+    resultsButton.dataset.uploadedFilePath = encodeURIComponent(uploadedFilePath);
+
+    const container = document.getElementById('container');
+    container.appendChild(resultsButton);
+
+    // Apply CSS styles for the fade-in effect
+    resultsButton.style.opacity = '0';
+    resultsButton.style.transition = 'opacity 0.5s';
+
+    console.log(uploadedFilePath); // Just for debugging
+
+    // Use setTimeout to delay the appearance for the fade-in effect
+    setTimeout(() => {
+        resultsButton.style.opacity = '1';
+    });
+}
+
+function redirectToResults() {
+    // Retrieve the uploaded image path from the data attribute
+    const uploadedFilePath = document.getElementById('resultsButton').dataset.uploadedFilePath;
+
+    // Redirect to results.html with the uploaded image path as a query parameter
+    window.location.href = `results.html?uploadedFilePath=${uploadedFilePath}`;
+}
+    </script>
+</body>
+</html>
