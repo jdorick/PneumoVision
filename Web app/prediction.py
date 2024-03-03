@@ -5,7 +5,7 @@ import json
 import numpy as np 
 
 # Load your model
-model = tf.keras.models.load_model('chest_xray_model.h5')  
+model = tf.keras.models.load_model('chest_xray_model_vgg16.h5')  
 image_size = (224, 224)
 
 disease_labels = ['Atelectasis', 'Consolidation', 'Infiltration', 'Pneumothorax', 
