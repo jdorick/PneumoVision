@@ -25,9 +25,12 @@ def predict_disease(image):
     image = preprocess_image(image)
     prediction = model.predict(tf.expand_dims(image, axis=0))[0]
 
+    # Find the index of the maximum confidence
+    max_index = np.argmax(prediction)
+    
     results = {
-        'predictions': [label for label, prob in zip(disease_labels, prediction) if prob > 0.5],
-        'confidence': prediction.tolist()
+        'prediction': disease_labels[max_index],
+        'confidence': float(prediction[max_index])  # Convert to regular float
     }
 
     return results

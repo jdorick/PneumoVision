@@ -107,9 +107,14 @@ function displayPredictionResults(result) {
     const resultAccuracy = document.getElementById('resultAccuracy');
 
     if (resultPrediction && resultAccuracy) {
+        // Display only the top prediction and its confidence
+        const topPredictionIndex = result.confidence.indexOf(Math.max(...result.confidence));
+        const topPrediction = result.predictions[topPredictionIndex] || 'No Prediction';
+        const confidence = (result.confidence[topPredictionIndex] * 100).toFixed(2) + '%';
+
         // Fill in the prediction and confidence in the respective div elements
-        resultPrediction.textContent = 'Prediction: ' + result.predictions.join(', ');
-        resultAccuracy.textContent = 'Confidence: ' + (result.confidence[0] * 100).toFixed(2) + '%';
+        resultPrediction.textContent = 'Prediction: ' + topPrediction;
+        resultAccuracy.textContent = 'Confidence: ' + confidence;
     }
 }
 
