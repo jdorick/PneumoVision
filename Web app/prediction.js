@@ -1,6 +1,6 @@
 // Function to trigger prediction
 function predictImage() {
-    const fileInput = document.getElementById('imageUpload');
+    const fileInput = document.getElementById('uploadInput');
     const file = fileInput.files[0];
 
     if (file) {
@@ -17,6 +17,9 @@ function predictImage() {
         .then(result => {
             // Display the results
             displayPredictionResults(result);
+
+            // After displaying results, show the "See Results" button
+            showResultsButton();
         })
         .catch(error => console.error('Error:', error));
     }

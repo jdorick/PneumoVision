@@ -40,3 +40,4 @@ function simulateProcessing(files, index) {
         }, 2000); // Simulated processing time (adjust as needed)
     }
 }
+
