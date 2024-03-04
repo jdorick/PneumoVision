@@ -52,6 +52,7 @@
     </style>
 </head>
 <body>
+    <input type="file" id="uploadInput">
     <div id="bubbleTopLeft"></div>
     <div id="bubbleBottomRight"></div>
     <div id="resultContainer">
@@ -61,7 +62,7 @@
     </div>
     <button id="runOnNewImageButton" class="resultsButton">Upload New Image</button>
     <!-- <script src="prediction.js"></script> -->
-    <script src="app.js"></script>
+    <!-- <script src="app.js"></script> -->
     <script>
 document.addEventListener("DOMContentLoaded", function () {
     const uploadedImageData = localStorage.getItem('imageData');
@@ -73,32 +74,64 @@ document.addEventListener("DOMContentLoaded", function () {
     if (resultImage && uploadedImageData) {
         // Set the data URL directly as the image source
         resultImage.src = uploadedImageData;
+
+        // Call predictImage function with the uploaded image data
+        predictImage(uploadedImageData);
     }
-    
-    function predictImage() {
-    const fileInput = document.getElementById('uploadInput');
-    const file = fileInput.files[0];
 
-    if (file) {
-        // Create a FormData object to send the file to the server
-        const formData = new FormData();
-        formData.append('image', file);
-
-        // Make a POST request to the backend endpoint
-        fetch('http://localhost:5000/predict', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(result => {
-            // Display the results
-            displayPredictionResults(result);
-
-            // After displaying results, show the "See Results" button
-            showResultsButton();
-        })
-        .catch(error => console.error('Error:', error));
+    const runOnNewImageButton = document.getElementById('runOnNewImageButton');
+    if (runOnNewImageButton) {
+        runOnNewImageButton.addEventListener('click', function () {
+            // Redirect to webapp.html
+            window.location.href = 'webapp.html';
+        });
     }
+});
+
+function predictImage(imageData) {
+    console.log('predictImage function called');
+    console.log('imageData:', imageData);
+
+    // Convert base64-encoded string to Blob
+    const blob = dataURItoBlob(imageData);
+
+    // Create a FormData object to send the image data to the server
+    const formData = new FormData();
+    formData.append('image', blob);
+
+    // Log before making the POST request
+    console.log('About to make a POST request with formData:', formData);
+
+    // Make a POST request to the backend endpoint
+    console.log('Before fetch');
+    fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Log the result received from the server
+        console.log('Received result from server:', result);
+
+        // Display the results
+        displayPredictionResults(result);
+
+        // After displaying results, show the "See Results" button
+        showResultsButton();
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Function to convert data URI to Blob
+function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
 }
 
 // Function to display prediction results
@@ -107,13 +140,12 @@ function displayPredictionResults(result) {
     const resultAccuracy = document.getElementById('resultAccuracy');
 
     if (resultPrediction && resultAccuracy) {
-        // Display only the top prediction and its confidence
-        const topPredictionIndex = result.confidence.indexOf(Math.max(...result.confidence));
-        const topPrediction = result.predictions[topPredictionIndex] || 'No Prediction';
-        const confidence = (result.confidence[topPredictionIndex] * 100).toFixed(2) + '%';
+        // Display the prediction and confidence
+        const prediction = result.prediction || 'No Prediction';
+        const confidence = (result.confidence * 100).toFixed(2) + '%';
 
         // Fill in the prediction and confidence in the respective div elements
-        resultPrediction.textContent = 'Prediction: ' + topPrediction;
+        resultPrediction.textContent = 'Prediction: ' + prediction;
         resultAccuracy.textContent = 'Confidence: ' + confidence;
     }
 }
@@ -124,8 +156,7 @@ function displayPredictionResults(result) {
             // Redirect to webapp.html
             window.location.href = 'webapp.html';
         });
-    }
-});
+    };
     </script>
 </body>
 </html>

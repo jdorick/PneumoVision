@@ -6,10 +6,10 @@ from tensorflow.keras.applications.vgg16 import preprocess_input
 import numpy as np
 
 app = Flask(__name__)
-CORS(app, resources={r"/predict": {"origins": "http://127.0.0.1:3000"}})
+CORS(app, resources={r"/predict": {"origins": "*"}})
 
 # Load your model
-model = tf.keras.models.load_model(r'C:\Users\jdori\Downloads\chest_xray_model_vgg16.h5')
+model = tf.keras.models.load_model(r'C:\Users\jdori\Downloads\chest_xray_model_resnet.h5')
 image_size = (224, 224)
 
 disease_labels = ['Atelectasis', 'Consolidation', 'Infiltration', 'Pneumothorax',
@@ -37,6 +37,7 @@ def predict_disease(image):
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    print('Received POST request')
     if 'image' not in request.files:
         return jsonify({'error': 'No image provided'}), 400
 
