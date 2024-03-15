@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from prediction import predict_disease
 
+# Utilizing the Flask API
 app = Flask(__name__)
 
 # Endpoint for image prediction
