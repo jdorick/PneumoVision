@@ -1,5 +1,3 @@
-# Uses all of the image files
-
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
@@ -17,7 +15,7 @@ epochs = 20
 data_dir = 'E:/archive'
 csv_file = os.path.join(data_dir, 'Data_Entry_2017.csv')
 
-# All your disease labels (make sure this is comprehensive!)
+# All disease labels
 disease_list = ['Atelectasis', 'Consolidation', 'Infiltration', 'Pneumothorax', 
                 'Edema', 'Emphysema', 'Fibrosis', 'Effusion', 'Pneumonia', 
                 'Pleural_Thickening', 'Cardiomegaly', 'Nodule', 'Mass', 'Hernia', 'No Finding']
@@ -65,7 +63,7 @@ def custom_generator(data_dir, image_label_dict, image_size, batch_size, image_i
 # Model (VGG16)
 base_model = tf.keras.applications.VGG16(include_top=False, weights='imagenet', input_shape=image_size + (3,)) 
 
-# Freeze pre-trained layers (optional)
+# Freeze pre-trained layers
 for layer in base_model.layers:
     layer.trainable = False 
 
@@ -90,7 +88,6 @@ validation_indices = all_image_indices[split_index:]
 # Train with the custom generator!
 train_data = custom_generator(data_dir, image_label_dict, image_size, batch_size, train_indices)
 validation_data = custom_generator(data_dir, image_label_dict, image_size, batch_size, validation_indices) 
-
 
 model.fit(train_data, epochs=epochs, validation_data=validation_data)
 
