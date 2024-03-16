@@ -9,10 +9,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/predict": {"origins": "*"}})  # Allow CORS for the /predict route
 
 # Load the model
-model = tf.keras.models.load_model(r'C:\\Users\\jdorick\\Downloads\\chest_xray_model_resnet.h5')
+model = tf.keras.models.load_model(r'C:\Users\jdori\Downloads\chest_xray_model_resnet.h5')
 
-# Load your model
-model = tf.keras.models.load_model(r'C:\Users\jdori\Downloads\chest_xray_model_vgg16.h5')
 image_size = (224, 224)
 # All disease labels
 disease_labels = ['Atelectasis', 'Consolidation', 'Infiltration', 'Pneumothorax',

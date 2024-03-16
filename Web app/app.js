@@ -37,7 +37,7 @@ function simulateProcessing(files, index) {
             }
 
             simulateProcessing(files, index + 1);
-        }, 2000); // Simulated processing time (adjust as needed)
+        }, 2000); // Simulated processing time
     }
 }
 
